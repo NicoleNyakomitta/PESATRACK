@@ -114,6 +114,56 @@ fun LoginScreen(
                         color = Color.Gray
                     )
 
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color(0xFFE8ECF2), RoundedCornerShape(14.dp))
+                            .padding(4.dp)
+                    ) {
+                        Button(
+                            onClick = {
+                                isSignUpMode = false
+                                localStatusMessage = ""
+                                nameError = ""
+                                emailError = ""
+                                passwordError = ""
+                                confirmPasswordError = ""
+                                viewModel.clearMessages()
+                            },
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (!isSignUpMode) LoginNavy else Color.Transparent,
+                                contentColor = if (!isSignUpMode) Color.White else LoginNavy
+                            ),
+                            elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp),
+                            shape = RoundedCornerShape(10.dp)
+                        ) {
+                            Text("Sign In", fontWeight = FontWeight.Bold)
+                        }
+                        Button(
+                            onClick = {
+                                isSignUpMode = true
+                                localStatusMessage = ""
+                                nameError = ""
+                                emailError = ""
+                                passwordError = ""
+                                confirmPasswordError = ""
+                                viewModel.clearMessages()
+                            },
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (isSignUpMode) LoginNavy else Color.Transparent,
+                                contentColor = if (isSignUpMode) Color.White else LoginNavy
+                            ),
+                            elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp),
+                            shape = RoundedCornerShape(10.dp)
+                        ) {
+                            Text("Register", fontWeight = FontWeight.Bold)
+                        }
+                    }
+
                     val displayMessage = dbErrorMessage ?: dbSuccessMessage ?: localStatusMessage
                     if (displayMessage.isNotEmpty()) {
                         Spacer(modifier = Modifier.height(12.dp))
