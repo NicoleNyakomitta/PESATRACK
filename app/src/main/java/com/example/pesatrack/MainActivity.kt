@@ -39,6 +39,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.pesatrack.data.local.AppDatabase
 import com.example.pesatrack.data.repository.TransactionRepository
 import com.example.pesatrack.data.repository.SavingsGoalRepository
+import com.example.pesatrack.data.repository.UserRepository
+import com.example.pesatrack.viewmodel.UserViewModel
+import com.example.pesatrack.viewmodel.UserViewModelFactory
 import com.example.pesatrack.ui.theme.PesaTrackTheme
 import com.example.pesatrack.viewmodel.TransactionViewModel
 import com.example.pesatrack.viewmodel.TransactionViewModelFactory
@@ -90,6 +93,14 @@ class MainActivity : ComponentActivity() {
             savingsGoalFactory
         )[SavingsGoalViewModel::class.java]
 
+        val userRepository = UserRepository(database.userDao())
+        val userFactory = UserViewModelFactory(userRepository)
+
+        val userViewModel = ViewModelProvider(
+            this,
+            userFactory
+        )[UserViewModel::class.java]
+
         setContent {
             PesaTrackTheme {
                 val navController = rememberNavController()
@@ -102,7 +113,8 @@ class MainActivity : ComponentActivity() {
                     // LOGIN SCREEN
                     composable("login") {
                         LoginScreen(
-                            onSignIn = {
+                            viewModel = userViewModel,
+                            onSignIn = { userAccount ->
                                 navController.navigate("dashboard") {
                                     popUpTo("login") {
                                         inclusive = true

@@ -7,13 +7,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.pesatrack.data.model.Transaction
 import com.example.pesatrack.data.model.SavingsGoal
+import com.example.pesatrack.data.model.UserEntity
 
 @Database(
     entities = [
         Transaction::class,
-        SavingsGoal::class
+        SavingsGoal::class,
+        UserEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -21,6 +23,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun transactionDao(): TransactionDao
 
     abstract fun savingsGoalDao(): SavingsGoalDao
+
+    abstract fun userDao(): UserDao
 
     companion object {
 
